@@ -45,7 +45,7 @@ if __name__ == "__main__":
     #create figure to plot
     fig, ax =plt.subplots()
     plt.xlabel('${\Omega}_{m,0}$')                  #label x axis
-    plt.ylabel('Age of Universe / years')           #label y axis
+    plt.ylabel('Age of Universe / Gyr')           #label y axis
 
     #plot t_0 as a function of omega_m
     ax.plot(omega_m, t_0_normalised, 'b-')
