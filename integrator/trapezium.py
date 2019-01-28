@@ -31,8 +31,14 @@ Trapezium Rule: This function| *calculates the integral given| *a function objec
 
 def trapeziumrule(f, rang, step):
     # Set the integration limits
-    lowX = rang[0]
-    upX = rang[1]
+    if rang[0] < rang[1]:
+        lowX = rang[0]
+        upX = rang[1]
+        var = 1.
+    else:
+        lowX = rang[1]
+        upX = ran[0]
+        var = -1.
 
     # Preliminary settings
     first = True          # Setting the first flag as True to start calculating from value x1 instead of x0
@@ -54,7 +60,7 @@ def trapeziumrule(f, rang, step):
             prevX = x                                     # Set the x_(n-1) to the current x for the next iteration
 
     value += (f.cal(prevX) + f.cal(upX))/2 * step         # Add the final term which is not accounted in the for Loop
-    return value                                          # return the final value
+    return value * var                                     # return the final value
 
 
 
@@ -72,6 +78,14 @@ Multi method: This method executes the trapeziumrule by breaking the integral in
 """
 
 def multi(f, rang, step):
+    if rang[0] < rang[1]:
+        lowX = rang[0]
+        upX = rang[1]
+        var = 1.
+    else:
+        lowX = rang[1]
+        upX = ran[0]
+        var = -1.
     Ncpu = multiprocessing.cpu_count()                   # Obtain the number of CPUS
     fstep =  (rang[1]-rang[0]) / Ncpu                    # Calculate the range each CPU is going to run
 
@@ -89,5 +103,5 @@ def multi(f, rang, step):
     for val in results:                                  # Sum over all the results outputted by the different processes
         result += val
 
-    return result                                        # Return final result
+    return result * var                                  # Return final result
 
