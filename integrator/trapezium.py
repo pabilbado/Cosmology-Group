@@ -37,7 +37,7 @@ def trapeziumrule(f, rang, step):
         var = 1.
     else:
         lowX = rang[1]
-        upX = ran[0]
+        upX = rang[0]
         var = -1.
 
     # Preliminary settings
@@ -77,16 +77,16 @@ Multi method: This method executes the trapeziumrule by breaking the integral in
               | * the resulting value of the integration
 """
 
-def multi(f, rang, step):
+def multi(f, rang, step, free =1):
     if rang[0] < rang[1]:
         lowX = rang[0]
         upX = rang[1]
         var = 1.
     else:
         lowX = rang[1]
-        upX = ran[0]
+        upX = rang[0]
         var = -1.
-    Ncpu = multiprocessing.cpu_count()                   # Obtain the number of CPUS
+    Ncpu = multiprocessing.cpu_count()-free              # Obtain the number of CPUS
     fstep =  (rang[1]-rang[0]) / Ncpu                    # Calculate the range each CPU is going to run
 
 
