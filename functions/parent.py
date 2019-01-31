@@ -17,11 +17,12 @@ class Function(object):
 
         self.c = 1
         self.a0= 1
-        self.H0= 1
-        self.omeM = 1
-        self.omeX= 1
+        self.H0= 7.48626305E-11
+        self.omeM = 0.35
+        self.omeX= 0.65
         self.wp= 1
         self.wa= 1
+        self.wx = -1
 
     # Basic function f(x)=x
     def cal(x):
