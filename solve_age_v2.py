@@ -12,9 +12,6 @@ Purpose: numerically solves Equation (1) - the expression for the age of the
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
-import time
-
-start=time.time()
 
 if __name__ == "__main__":
 
