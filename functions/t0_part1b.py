@@ -25,12 +25,14 @@ class t0_part1b(Function):
         Function.__init__(self)
         self.integrand = t0_part1bintegrand(omeM = 0.3, wx=-0.3)
 
-        #updates omeM in the integrand. Only updates wx if it is assigned a (numerical) value
-    def update(self, omeM=0.35, wx=False):
+        #updates the values of the integrand. Only updates the values especified a (numerical) value
+    def update(self, omeM=False, wx=False):
         if type(wx) == type(False):
             wx = self.integrand.wx
+        if type(omeM)== type(False):
+            omeM = self.integrand.omeM
         self.integrand = t0_part1bintegrand(omeM = omeM, wx=wx)
 
     def cal(self, PomeM):
-        self.update(omeM=PomeM, wx=False)
+        self.update(omeM=PomeM)
         return integrate(self.integrand, [0.1, self.a0], 0.001)
