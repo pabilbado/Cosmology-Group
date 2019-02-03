@@ -15,6 +15,7 @@ class Function(object):
     def __init__(self):
         # List of constants
 
+        ## General variables
         self.c = 1
         self.a0= 1
         self.H0= 7.48626305E-11
@@ -23,6 +24,10 @@ class Function(object):
         self.wp= 1
         self.wa= 1
         self.wx = -1
+        ## SFQ parametrisation variables needed
+        self.tau = 0.33 #Value of transition width. SFQ
+        self.at = 1 #This is the Scaling Factor @ Transition. PLEASE CHANGE TO GIVEN VALUE
+        self.rho_x0 = 1 #set to 1 for now - PLEASE CHANGE TO CALCULATED VALUE
 
     # Basic function f(x)=x
     def cal(x):
