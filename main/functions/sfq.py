@@ -1,4 +1,5 @@
 from integrator.trapezium import multi as integrate
+from data.getdata import data_as_list
 import math
 
 """
@@ -8,6 +9,7 @@ later stages.
 """
 class sfq_integrand():
     def __init__(self):
+
         self.a0 = 1 #Value of a @ t0.
         self.at = 1 #This is the Scaling Factor @ Transition. PLEASE CHANGE TO GIVEN VALUE
         self.tau = 0.33 #Value of transition width.
@@ -26,12 +28,13 @@ for integrating a given function for a list values of redshifts, z.
 """
 class sfq_integral():
     def __init__(self):
+
+        initdata = data_as_list() #initiates class data_as_list().
         self.a0 = 1
         self.at = 1 #This is the Scaling Factor @ Transition. PLEASE CHANGE TO GIVEN VALUE
         self.tau = 0.33 #Value of transition width.
         self.rho_x0 = 1 #set to 1 for now - PLEASE CHANGE TO CALCULATED VALUE
-        self.z = [0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9]   #Given values of redshifts
-
+        self.z =  initdata.datalist()  #Given values of redshifts
 
 #cal Method: Calculates the value of the scale factor from a list of z, then integrates
 #the given function of the scale factor, and outputs a list of rho_x.
