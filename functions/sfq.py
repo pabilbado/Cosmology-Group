@@ -1,5 +1,4 @@
 from integrator.trapezium import multi as integrate
-from data.getdata import data_as_list
 import math
 
 from functions.parent import Function
