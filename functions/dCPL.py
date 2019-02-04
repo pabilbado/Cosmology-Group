@@ -38,11 +38,27 @@ class dCPL(Function):
     # Initialize the function and inherit everything from the parent function
     def __init__(self):
         Function.__init__(self)
+        self.integrand = dCPLintegrand()
+
+    def update(self, wp = False, wa = False):
+        if type(wp) != type(False):
+            self.integrand.wp = wp
+        if type(wa) != type(False):
+            self.integrand.wa = wa
+
 
     # Calculate the value as a function of x
     def cal(self, z):
-        az = 1./1+z
-        return (self.c / (math.sqrt(self.a0) * self.H0)) * integrate(dCPLintegrand(), [az, self.a0], 0.001)
+        az = self.a0/(1+z)
+        return (self.c / (math.sqrt(self.a0) * self.H0_2)) * integrate(self.integrand, [az, self.a0], 0.001)
 
+
+
+class dBAO(Function):
+    def __init__(self):
+        Function.__init__(self)
+
+    def cal(self, theta):
+        return self.lbao / theta
 
 

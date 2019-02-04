@@ -16,14 +16,19 @@ class Function(object):
         # List of constants
 
         ## General variables
-        self.c = 1
         self.a0= 1
-        self.H0= 7.48626305E-11
-        self.omeM = 0.35
-        self.omeX= 0.65
+        self.H0_1= 7.48626305E-11 # in year^-1
+        self.omeM = 0.308
+        self.omeX= 0.692
         self.wp= 1
         self.wa= 1
         self.wx = -1
+
+        ## BAO calculation in the CPL
+        self.c = 2.998e6 # in km/s
+        self.H0_2 = 67.81 # in Km/(s MpC)
+        self.lbao = 147.6 # in MpC
+
         ## SFQ parametrisation variables needed
         self.tau = 0.33 #Value of transition width. SFQ
         self.at = 1 #This is the Scaling Factor @ Transition. PLEASE CHANGE TO GIVEN VALUE
