@@ -97,6 +97,7 @@ def multi(f, rang, step, free =1):
         arg.append((f, Frang, step))                     # Create the list of arguments with different ranges
 
     results = pool.starmap(trapeziumrule, arg)           # Using the trapezium rule to map each argument to a result
+    pool.terminate()
                                                          ## space giving a list of integration results
 
     result = 0                                           # Set the result value to 0
