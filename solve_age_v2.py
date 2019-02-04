@@ -4,8 +4,8 @@ Purpose: numerically solves Equation (1) - the expression for the age of the
          constant for omega_lambda, given a value of t_0, using the Brent Algorithm
 
 @author Matthew Gorton
-@version 2.0
-2 February 2019
+@version 3.0
+4 February 2019
 
 """
 
@@ -34,10 +34,25 @@ if __name__ == "__main__":
     sqrt = np.sqrt
     abs = np.abs
 
-    def f(x):
-        y = (2.0/3.0) * (1/H_0_yrs) * (1/sqrt(x)) * np.log((1+sqrt(x))/(sqrt(abs(1.0 - x)))) - t_max_2sigma
+    #dictionary of t_0 values and the corresponding bound on w_x
+    t0s = [t_obs, t_min_1sigma, t_max_1sigma, t_min_2sigma, t_max_2sigma]
+
+    #calculated age of universe - observed age of universe
+    def f(x, t):
+        y = (2.0/3.0) * (1/H_0_yrs) * (1/sqrt(x)) * np.log((1+sqrt(x))/(sqrt(abs(1.0 - x)))) - t
         return y
 
-    x = scipy.optimize.brentq(f, 0.1, 0.9)
+    #create text file
+    text_file = open("Output.txt", "w")
 
-    print(x)
+    #cycle through dictionary entries (each entry corresponds to an omega_m value)
+    for i in range(len(t0s)):
+        #solve for Omega_Lambda
+        x = scipy.optimize.brentq(f, 0.1, 0.9, t0s[i])
+        #write to text file
+        text_file.write("%s %f" % (t0s[i], x) + "\n")
+
+        print(x)
+
+    #close text file
+    text_file.close()
