@@ -50,7 +50,7 @@ class dCPL(Function):
     # Calculate the value as a function of x
     def cal(self, z):
         az = self.a0/(1+z)
-        return (self.c / (math.sqrt(self.a0) * self.H0_2)) * integrate(self.integrand, [az, self.a0], 0.001)
+        return (self.c / (math.sqrt(self.a0) * self.H0_2)) * integrate(self.integrand, [az, self.a0], 1e-3)
 
 
 

@@ -15,14 +15,12 @@ from matplotlib import cm
 d = dCPL()
 db = dBAO()
 
+rangwa=[0,20]
+rangwp=[0,20]
+step = 0.2
+tolerance = 500
+
 data = datalist()
-
-rangwa=[-10,10]
-rangwp=[-10,10]
-step = 0.1
-
-tolerance = 100
-
 inpdata = []
 for n, z in enumerate(data["z"]):
     inpdata.append([z, data["theta"][n]])
@@ -30,8 +28,7 @@ for n, z in enumerate(data["z"]):
 
 
 results = []
-
-for datapoint in inpdata:
+for n, datapoint in enumerate(inpdata):
     z = datapoint[0]
     theta = datapoint[1]
 
@@ -39,7 +36,8 @@ for datapoint in inpdata:
     WA = arange(rangwa[0], rangwa[1]+step, step)
     WP = arange(rangwa[0], rangwa[1]+step, step)
 
-    for wa in WA:
+    for i, wa in enumerate(WA):
+        print( (i+(n*len(WA)))*100 / (len(WA)*len(inpdata)))
         d.update(wa = wa)
         for wp in WP:
             d.update(wp=wp)
@@ -50,22 +48,21 @@ for datapoint in inpdata:
 
 
 filtered = []
+examined = []
 for result in results:
     cwa = result["wa"]
     cwp = result["wp"]
+    if [cwa, cwp] not in examined:
+        examined.append([cwa, cwp])
+        viewedz = []
+        for r in results:
+            if cwa == r["wa"] and cwp == r["wp"]:
+                if r["z"] not in viewedz:
+                    viewedz.append(r["z"])
 
-    viewedz = []
-    for r in results:
-        if cwa == r["wa"] and cwp == r["wp"]:
-            if r["z"] not in viewedz:
-                viewedz.append(r["z"])
+        if len(viewedz) == len(inpdata):
+            filtered.append([cwa, cwp])
+        elif len(viewedz) >1:
+            print("{Z: {0} ({1}) for wa:{2}, wp:{3}}".format(viewedz, len(viewedz),cwa, cwp))
 
-    if len(viewedz) == len(inpdata):
-        filtered.append([cwa, cwp])
-
-
-
-
-print(results)
-print()
 print(filtered)
