@@ -3,25 +3,26 @@ import matplotlib.pyplot as plt
 from integrator.trapezium import trapeziumrule as integrate
 from functions.t0_part1b import t0_part1b as t0
 from numpy import arange
+from numpy import abs
 
 #set function
 ft = t0()
 
 #set range of w_x values to cycle through
-rangwx = [-25,0]
+rangwx = [-25,1]
 
 #set step
-step = 0.05
+step = 0.001
 
 #omega_m values: mean and upper and lower 1-sigma and 2-sigma bounds
 Xs = [0.25, 0.30, 0.35, 0.40, 0.45]
 #t_0 values: mean and upper and lower 1-sigma and 2-sigma bounds
 Ys = [10.6, 11.7, 12.8, 13.9, 15.0]
 #statements to show when printing w_x value
-meanings = ['1-sigma lower bound: ', '1-sigma upper bound: ', 'Mean: ', '1-sigma upper bound: ', '2-sigma upper bound: ']
+meanings = ['2-sigma lower bound: ', '1-sigma lower bound: ', 'Mean: ', '1-sigma upper bound: ', '2-sigma upper bound: ']
 
 #tolerance - how far from the actual answer the calculated answer can be
-tolerance = 1e-1
+tolerance = 1e-2
 
 #create text file
 text_file = open("wx_values.txt", "w")
@@ -34,7 +35,7 @@ for i in range(0, len(Xs)):
 
         #calculated value of t_0
         val = ft.cal(Xs[i])
-
+        #print val
         #compare calculated value of t_0 to actual value
         if abs(Ys[i]-val) <= tolerance:
             #print
