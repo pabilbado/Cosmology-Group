@@ -14,17 +14,22 @@ data = datalist()
 for n, z in enumerate(data["z"]):
     inpdata.append([z, data["theta"][n]])
 
-z_val = inpdata[1][0]
-the_val = inpdata[1][1]
+z_val = inpdata[5][0]
+the_val = inpdata[5][1]
 d0_data=db.cal(the_val)
 
-rang=[5,20]
-step = 0.5
+rangwp=[-50,50]
+rangwa=[-50,50]
+step = 1
 
-wa=wp=np.arange(rang[0],rang[1]+step,step)
-WA, WP = np.meshgrid(wa, wp)
+WP=np.arange(rangwp[0],rangwp[1]+step,step)
+WA=np.arange(rangwa[0],rangwa[1]+step,step)
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
+ax.set_xlabel("wa")
+ax.set_ylabel("wp")
+ax.set_zlabel("d")
 
 def func(x,y):
     d.update(wa=x, wp=y)
@@ -32,14 +37,34 @@ def func(x,y):
 def plane(x,y):
     return d0_data
 
-zs = np.array([func(x,y) for x,y in zip(np.ravel(WA), np.ravel(WP))])
-Z = zs.reshape(WA.shape)
-ax.plot_surface(WA, WP, Z)
+X=[]
+Y=[]
+Z=[]
+for wa in WA:
+    for wp in WP:
+        X.append(wa)
+        Y.append(wp)
+        Z.append(func(wa,wp))
+X = np.array(X)
+Y = np.array(Y)
+Z = np.array(Z)
+
+ax.plot_trisurf(X,Y,Z)
 
 
-zs = np.array([plane(x,y) for x,y in zip(np.ravel(WA), np.ravel(WP))])
-Z = zs.reshape(WA.shape)
-ax.plot_surface(WA, WP, Z)
+X=[]
+Y=[]
+Z=[]
+for wa in WA:
+    for wp in WP:
+        X.append(wa)
+        Y.append(wp)
+        Z.append(plane(wa,wp))
+X = np.array(X)
+Y = np.array(Y)
+Z = np.array(Z)
+
+#ax.plot_trisurf(X,Y,Z)
 
 
 
