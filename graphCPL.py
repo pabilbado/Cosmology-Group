@@ -18,9 +18,9 @@ z_val = inpdata[5][0]
 the_val = inpdata[5][1]
 d0_data=db.cal(the_val)
 
-rangwp=[-50,50]
-rangwa=[-50,50]
-step = 1
+rangwp=[-5,10]
+rangwa=[-5,10]
+step = 3
 
 WP=np.arange(rangwp[0],rangwp[1]+step,step)
 WA=np.arange(rangwa[0],rangwa[1]+step,step)
@@ -64,7 +64,7 @@ X = np.array(X)
 Y = np.array(Y)
 Z = np.array(Z)
 
-#ax.plot_trisurf(X,Y,Z)
+ax.plot_trisurf(X,Y,Z)
 
 
 
