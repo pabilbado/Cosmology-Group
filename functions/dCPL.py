@@ -52,7 +52,9 @@ class dCPL(Function):
         az = self.a0/(1+z)
         return (self.c / (math.sqrt(self.a0) * self.H0_2)) * integrate(self.integrand, [az, self.a0], 1e-4)
 
-
+"""
+The bao function, it is a reversible function. Given an angle it will output d and given d it will output theta.
+"""
 
 class dBAO(Function):
     def __init__(self):

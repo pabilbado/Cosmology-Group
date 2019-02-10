@@ -145,6 +145,7 @@ def moveLine(wa, wp, step, tolerance, inpdata ,df ,results = [], reverse = False
             break
         if wp < rangwp[0] or wp > rangwp[1]:
             break
+    if results==
     return results
 
 """
@@ -154,20 +155,20 @@ and outputs the best solution values
 
 
 def checkresults(results, data, tol, df):
-
+    tol *=.1
     print(len(results))
     for datapoint in data[::-1]:
         filtered = []
         z = datapoint[0]
         d_data = datapoint[1]
         n_results=[]
-        print("Calculating values")
+        print("Calculating values for z: {0}".format(z))
         for value in results:
             df.update(wa=value[0], wp=value[1])
             d_cal = df.cal(z)
             diff = abs(d_cal - d_data)
             n_results.append([value, diff])
-        print("Filtering results")
+        print("Filtering results with tolerance: {0}".format(tol))
         prev = False
         filtered = []
         while filtered ==[]:
@@ -251,10 +252,13 @@ d = dCPL()
 
 step = 5*10          # Initial stepsize
 tolerance = 1     # Tolerace
-iP = [-9, 20]        # Initial point
-ranges = [[-15,10],  # Wa range &
-          [0,30]]  # Wp range to examine
+iP = [-50+random.uniform(-2,2),
+      -10+random.uniform(-2,2)]        # Initial point
 
+rang = 8
+
+ranges = [[iP[0]-rang, iP[0]+rang],
+          [iP[1]-rang, iP[1]+rang]]
 
 inpdata = obtaindata("data_test")
 

@@ -2,6 +2,11 @@ import pandas as pd
 from functions.dCPL import dBAO, dCPL
 import numpy as np
 
+"""
+Generatetest is a method that generates a data set in a csv file data_test,
+given a wa and wp value it will generate a set of results that fit these values
+the distance function can also be determined.
+"""
 
 def Generatetest(wa, wp, f = dCPL(), dbao = dBAO()):
     f.update(wa= wa, wp = wp)

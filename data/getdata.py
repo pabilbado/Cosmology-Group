@@ -14,6 +14,10 @@ def datalist(name= "data"):
     dic = {"z" : z, "a":a, "theta" : theta}
     return dic
 
+"""
+obtaindata outputs a list of that each element contains a z value and a d value
+"""
+
 def obtaindata(filename):
     data = datalist(name="{}".format(filename))
     inpdata = []
