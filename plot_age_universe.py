@@ -8,17 +8,31 @@ created 31 January 2019
 updated 5 February 2019
 
 """
-
+import matplotlib.patches
 from integrator.trapezium import trapeziumrule as integrate
 from functions.t0_part1b import t0_part1b as t0
+from cycler import cycler
 import matplotlib as mpl
+import matplotlib.colors
 import matplotlib.pyplot as plt
 import numpy as np
 
+#rectangle object
+Rectangle = plt.Rectangle
+
+#set colours to cycle through
+colours = ['#66ccff', '#3399ff', '#0066ff', '#000099']
+
+#create figure and axes
 fig, ax = plt.subplots()
 
-#Set the default color cycle
-mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=['b', 'cyan', 'lime', 'g'])
+#set colour cycle
+ax.set_prop_cycle(color=colours)
+
+#set x and y axis limits
+ax.set_xlim(left=0.0, right=1.0)
+ax.set_ylim(bottom=8.0, top=17.0)
+
 
 #create function
 tfunc = t0()
@@ -26,29 +40,6 @@ tfunc = t0()
 #create an empty array (of strings), to display as a legend
 wx_legend = ([])
 
-#produce a plot for each w_x value
-for x in np.arange(-.9,-.3, 0.2):
-    tfunc.update(wx = x)
-    tfunc.plot(ax, [0.01,.99], 0.01)
-    #add label to legend, with the appropriate w_x value
-    #use np.around to round w_x values to 1DP
-    wx_legend = np.append(wx_legend, ['$w_{x}$ = ' + str(np.around(x, decimals = 1))])
-    #print value of w_x and corresponding value of t0
-    #tfunc.update(omeM=0.35, wx=x)
-    #print(tfunc.cal(0.35))
-
-#create plot for very large magnitude negative w
-"""
-for x in np.arange(-.10E9,-10E6, 10):
-    tfunc.update(wx=x)
-    tfunc.plot(ax, [0.1,.9], 0.1)
-    #add label to legend, with the appropriate w_x value
-    #use np.around to round w_x values to 1DP when displayed in legend
-    wx_legend = np.append(wx_legend, ['$w_{x}$ = ' + str(np.around(x, decimals = 1))])
-"""
-
-plt.xlabel('${\Omega}_{m,0}$')                      #label x axis
-plt.ylabel('Age of Universe / Gyr')                 #label y axis
 
 #observed age of universe (from white dwarfs)
 t_obs = 12.8                                        #mean value (in Gyr)
@@ -72,26 +63,32 @@ omega_max_1sigma = omega_m_obs + omega_m_error
 #calculate upper and lower bounds of omega_m to 2-sigma
 omega_min_2sigma = omega_m_obs - 2*omega_m_error
 omega_max_2sigma = omega_m_obs + 2*omega_m_error
-"""
+
+
+#produce a plot for each w_x value
+for x in np.arange(-.9,-.3, 0.2):
+    tfunc.update(wx = x)
+    tfunc.plot(ax, [0.01,.99], 0.01)
+    #add label to legend, with the appropriate w_x value
+    #use np.around to round w_x values to 1DP
+    wx_legend = np.append(wx_legend, ['$w_{x}$ = ' + str(np.around(x, decimals = 1))])
+    #print value of w_x and corresponding value of t0
+    #tfunc.update(omeM=0.35, wx=x)
+    #print(tfunc.cal(0.35))
+
+plt.xlabel('${\Omega}_{m,0}$')                      #label x axis
+plt.ylabel('Age of Universe / Gyr')                 #label y axis
+
 #create error patches: ((x,y of bottom left corner), width, height, angle **kwargs)
-t_rectangle_1sigma = Rectangle((0, t_min_1sigma), 1, 2*t_obs_error, 0, alpha = 0.5, color = 'r')
-t_rectangle_2sigma = Rectangle((0, t_min_2sigma), 1, 4*t_obs_error, 0, alpha = 0.25, color = 'r')
+t_rectangle_1sigma = Rectangle((0, t_min_1sigma), 1, 2*t_obs_error, 0, alpha = 0.5, color = '#ebbaad')
+t_rectangle_2sigma = Rectangle((0, t_min_2sigma), 1, 4*t_obs_error, 0, alpha = 0.25, color = '#ebbaad')
 
 omega_rectangle_1sigma = Rectangle((omega_min_1sigma, 7.5), 2*omega_m_error, 10, alpha = 0.5, color = 'y')
 omega_rectangle_2sigma = Rectangle((omega_min_2sigma, 7.5), 4*omega_m_error, 10, alpha = 0.25, color = 'y')
-"""
-"""
+
 errorboxes = [t_rectangle_1sigma, t_rectangle_2sigma, omega_rectangle_1sigma, omega_rectangle_2sigma]
 for i in range(len(errorboxes)):
     ax.add_artist(errorboxes[i])
-"""
-# Create patch collection
-#pc = PatchCollection([t_rectangle_1sigma, t_rectangle_2sigma, omega_rectangle_1sigma, omega_rectangle_2sigma])
-
-
-
-# Add collection to axes
-#ax.add_collection(pc)
 
 
 #plot line showing upper and lower 1-sigma bound on t_0
@@ -112,6 +109,7 @@ ax.plot([0.0,1.0],[t_max_1sigma, t_max_1sigma], color='r', alpha = 1, linestyle=
 ax.plot([0.0,1.0],[t_max_2sigma, t_max_2sigma], color='r', alpha = 0.5, linestyle='--', linewidth=1)
 ax.axvline(x=omega_max_1sigma, ymin=0.0, ymax=1.0, color='k', alpha = 1, linestyle='--', linewidth=1)
 ax.axvline(x=omega_max_2sigma, ymin=0.0, ymax=1.0, color='k', alpha = 0.5, linestyle='--', linewidth=1)
+
 
 #create legend
 plt.legend(wx_legend)
