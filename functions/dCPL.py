@@ -19,12 +19,9 @@ class dCPLintegrand(Function):
 
     # Calculate the value as a function of x
     def cal(self, x):
-        px = math.pow((self.a0/x),(3*(self.wp + self.wa))) * math.exp(3*self.wa * (x/self.a0 - 1 ))
+        integrand = math.sqrt(x) * math.sqrt(self.omeM + ((self.omeX* math.pow(self.a0/x,3*(self.wp + self.wa))) * math.exp(3*self.wa*(x/self.a0 -1)) ))
 
-        squarerootpart = math.sqrt(self.omeM + (self.omeX * px))
-
-        integrand = 1./(math.sqrt(x) * squarerootpart)
-        return integrand
+        return (1./integrand)
 
 
 

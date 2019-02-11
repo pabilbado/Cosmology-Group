@@ -21,6 +21,6 @@ obtaindata outputs a list of that each element contains a z value and a d value
 def obtaindata(filename):
     data = datalist(name="{}".format(filename))
     inpdata = []
-    for n, z in enumerate(data["z"]):
-        inpdata.append([z, db.cal(data["theta"][n])])
+    for n, z in zip(data["z"],data["theta"]):
+        inpdata.append([n,db.cal(z)])
     return inpdata

@@ -25,7 +25,6 @@ def LineMethod(wa, wp, tolerance, step, inpdata, df):
     print("Finding point in Line")
     z = inpdata[0][0]
     d_data = inpdata[0][1]
-    df = dCPL()
 
     pDifsign = 0
     while True:
@@ -145,7 +144,6 @@ def moveLine(wa, wp, step, tolerance, inpdata ,df ,results = [], reverse = False
             break
         if wp < rangwp[0] or wp > rangwp[1]:
             break
-    if results==
     return results
 
 """
@@ -155,10 +153,8 @@ and outputs the best solution values
 
 
 def checkresults(results, data, tol, df):
-    tol *=.1
     print(len(results))
     for datapoint in data[::-1]:
-        filtered = []
         z = datapoint[0]
         d_data = datapoint[1]
         n_results=[]
@@ -169,7 +165,6 @@ def checkresults(results, data, tol, df):
             diff = abs(d_cal - d_data)
             n_results.append([value, diff])
         print("Filtering results with tolerance: {0}".format(tol))
-        prev = False
         filtered = []
         while filtered ==[]:
             for data in n_results:
@@ -250,17 +245,15 @@ def linearregression(df, results, inpdata):
 
 d = dCPL()
 
-step = 5*10          # Initial stepsize
-tolerance = 1     # Tolerace
-iP = [-50+random.uniform(-2,2),
-      -10+random.uniform(-2,2)]        # Initial point
+step = .5          # Initial stepsize
+tolerance = 0.01     # Tolerace
+iP = [ 0,
+      -0.5]        # Initial point
 
-rang = 8
+ranges = [[-0.2,0],
+          [-1.04,-.9]]
 
-ranges = [[iP[0]-rang, iP[0]+rang],
-          [iP[1]-rang, iP[1]+rang]]
-
-inpdata = obtaindata("data_test")
+inpdata = obtaindata("data")
 
 wa = iP[0]
 wp = iP[1]
@@ -281,7 +274,7 @@ wp = fwp
 results = moveLine(wa, wp, -step, tolerance, inpdata, d,results, reverse = True, rangwa = ranges[0], rangwp = ranges[1])
 
 
-results =  roundR(results)
+# results =  roundR(results, 5)
 
 
 # os.system("mkdir savedData")

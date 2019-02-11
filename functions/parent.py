@@ -16,7 +16,7 @@ class Function(object):
         # List of constants
 
         ## General variables
-        self.a0= 1
+        self.a0= 1.
         self.H0_1= 7.48626305E-11 # in year^-1
         self.omeM = 0.308
         self.omeX= 0.692
@@ -25,7 +25,7 @@ class Function(object):
         self.wx = -1
 
         ## BAO calculation in the CPL
-        self.c = 2.998e6 # in km/s
+        self.c = 2.998e5 # in km/s
         self.H0_2 = 67.81 # in Km/(s MpC)
         self.lbao = 147.6 # in MpC
 
@@ -33,6 +33,8 @@ class Function(object):
         self.tau = 0.33 #Value of transition width. SFQ
         self.at = 1 #This is the Scaling Factor @ Transition. PLEASE CHANGE TO GIVEN VALUE
         self.rho_x0 = 1 #set to 1 for now - PLEASE CHANGE TO CALCULATED VALUE
+        self.wpas = 0
+        self.wf = -1
 
     # Basic function f(x)=x
     def cal(x):

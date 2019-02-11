@@ -30,6 +30,7 @@ Trapezium Rule: This function| *calculates the integral given| *a function objec
 """
 
 def trapeziumrule(f, rang, step):
+    step = 5e-6
     # Set the integration limits
     if rang[0] < rang[1]:
         lowX = rang[0]
