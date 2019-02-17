@@ -87,7 +87,7 @@ def multi(f, rang, step, free =1):
         lowX = rang[1]
         upX = rang[0]
         var = -1.
-    Ncpu = (multiprocessing.cpu_count()-free)*2           # Obtain the number of CPUS
+    Ncpu = (multiprocessing.cpu_count()-free)            # Obtain the number of CPUS
     fstep =  (rang[1]-rang[0]) / Ncpu                    # Calculate the range each CPU is going to run
 
 
