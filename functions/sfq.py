@@ -11,12 +11,13 @@ later stages.
 class sfq_integrand(Function):
     def __init__(self):
         Function.__init__(self)
-        self.w_x = 1
+        self.factor = 1
+        self.wf = -1
 #cal Method: Calculates the function inside the integral.
 #           Inputs:  value of a.
 #           Outputs: the result of the function from given values.
     def cal(self, a):
-        w = -1 + self.w_x*((self.wpas - self.wf)/(1 + math.pow(a/self.at, 1./self.tau))) #function for the barotropic parameter in terms of a
+        w = -self.wf + self.factor*((self.wpas - self.wf)/(1 + math.pow(a/self.at, 1./self.tau))) #function for the barotropic parameter in terms of a
         intgrd = -(3.*(1+w)/a)  #the full integrand
         return(intgrd)
 
@@ -69,7 +70,7 @@ class dsfq(Function):
         return integrate(self.integrand, [a, self.a0], 0.001)
 
     def update(self,
-                     w_x=False,
+                     factor=False,
                      omeM=False,
                      omeX=False,
                      at=False,
@@ -79,8 +80,8 @@ class dsfq(Function):
                      wf = False
                      ):
 
-        if type(w_x) != type(False):
-            self.integrand.rho.integral.w_x = w_x
+        if type(factor) != type(False):
+            self.integrand.rho.integral.factor = factor
         if type(omeM) != type(False):
             self.integrand.omeM = omeM
         if type(omeX) != type(False):
