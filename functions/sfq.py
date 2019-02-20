@@ -1,5 +1,5 @@
 from integrator.trapezium import multi as integrate
-from integrator.trapezium import trapeziumrule as integratechild
+from integrator.simpsons import simpsrule as integratechild
 import math
 from functions.parent import Function
 
