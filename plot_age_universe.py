@@ -9,7 +9,7 @@ updated 5 February 2019
 
 """
 import matplotlib.patches
-from integrator.trapezium import trapeziumrule as integrate
+from integrator.simpsons import simpsrule as integrate
 from functions.t0_part1b import t0_part1b as t0
 from cycler import cycler
 import matplotlib as mpl
