@@ -53,9 +53,9 @@ class q_sfq(Function):
         #integrate integral for given z
         q_integral = trapeziumrule(self.integrand, [0., z], 1e-5)
         #components of expression for q(z)
-        w_term = 1 + self.wf + (self.wpas - self.wf)/(1 + math.pow(((self.a0/self.a_t)*(1/(1+z))), (1/self.tau)))
-        q_numerator = 1.5 * ((self.omeM * (1+z)**3) + ((1-self.omeM) * (w_term) * math.exp(q_integral)))
+        w_term = self.wf + (self.wpas - self.wf)/(1 + math.pow(((self.a0/self.a_t)*(1/(1+z))), (1/self.tau)))
+        q_numerator = 3 * (1-self.omeM) * (w_term) * math.exp(q_integral)
         q_denominator = (self.omeM * (1+z)**3) + ((1-self.omeM) * math.exp(q_integral))
         #function q(z)
-        q = -1 + (q_numerator / q_denominator)
+        q = 0.5*(1 + (q_numerator / q_denominator))
         return(q)
