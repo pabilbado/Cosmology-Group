@@ -1,6 +1,6 @@
 #import numpy as np
 import matplotlib.pyplot as plt
-from integrator.trapezium import trapeziumrule as integrate
+from integrator.simpsons import simpsrule as integrate
 from functions.t0_part1b import t0_part1b as t0
 from numpy import arange
 from numpy import abs
