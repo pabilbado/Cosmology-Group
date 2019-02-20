@@ -1,4 +1,4 @@
-from integrator.trapezium import multi as integrate
+from integrator.simpsons import multi as integrate
 from functions.parent import Function
 
 
