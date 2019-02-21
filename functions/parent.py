@@ -1,4 +1,4 @@
-from integrator.trapezium import multi as integrate
+from integrator.simpsons import multi as integrate
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,6 +23,7 @@ class Function(object):
         self.wp= 1
         self.wa= 1
         self.wx = -1
+        self.wm = 0
 
         ## BAO calculation in the CPL
         self.c = 2.998e5 # in km/s
