@@ -3,9 +3,9 @@ Purpose: plot the age of the universe as a function of omega_m for a range of
          w_x values
 
 @authors Pablo Bilbao, Matthew Gorton
-@version 3.0
+@version 4.0
 created 31 January 2019
-updated 5 February 2019
+updated 11 February 2019
 
 """
 import matplotlib.patches
@@ -20,7 +20,7 @@ import numpy as np
 #rectangle object
 Rectangle = plt.Rectangle
 
-#set colours to cycle through
+#set colours to cycle through (shades of blue)
 colours = ['#66ccff', '#3399ff', '#0066ff', '#000099']
 
 #create figure and axes
@@ -68,13 +68,10 @@ omega_max_2sigma = omega_m_obs + 2*omega_m_error
 #produce a plot for each w_x value
 for x in np.arange(-.9,-.3, 0.2):
     tfunc.update(wx = x)
-    tfunc.plot(ax, [0.01,.99], 0.01)
-    #add label to legend, with the appropriate w_x value
+    tfunc.plot(ax, [0.001,1.0], 0.01)
     #use np.around to round w_x values to 1DP
     wx_legend = np.append(wx_legend, ['$w_{x}$ = ' + str(np.around(x, decimals = 1))])
     #print value of w_x and corresponding value of t0
-    #tfunc.update(omeM=0.35, wx=x)
-    #print(tfunc.cal(0.35))
 
 plt.xlabel('${\Omega}_{m,0}$')                      #label x axis
 plt.ylabel('Age of Universe / Gyr')                 #label y axis
@@ -91,28 +88,32 @@ for i in range(len(errorboxes)):
     ax.add_artist(errorboxes[i])
 
 
-#plot line showing upper and lower 1-sigma bound on t_0
+#plot line showing lower 1-sigma bound on t_0
 ax.plot([0.0,1.0],[t_min_1sigma, t_min_1sigma], color='r', alpha = 1, linestyle='--', linewidth=1)
 
-#plot line showing upper and lower 1-sigma bound on t_0
+#plot line showing lower 1-sigma bound on t_0
 ax.plot([0.0,1.0],[t_min_2sigma, t_min_2sigma], color='r', alpha = 0.5, linestyle='--', linewidth=1)
 
-#plot line showing upper and lower 1-sigma bound on omega_m
+#plot line showing lower 1-sigma bound on omega_m
 ax.axvline(x=omega_min_1sigma, ymin=0.0, ymax=1.0, color='k', alpha = 1, linestyle='--', linewidth=1)
 
-#plot line showing upper and lower 2-sigma bound on omega_m
+#plot line showing lower 2-sigma bound on omega_m
 ax.axvline(x=omega_min_2sigma, ymin=0.0, ymax=1.0, color='k', alpha = 0.5, linestyle='--', linewidth=1)
 
+#append to legend
 wx_legend = np.append(wx_legend, ['$t_{0} (1 \sigma$ bound)', '$t_{0} (2 \sigma$ bound)', '$\Omega_{m,0} (1 \sigma$ bound)', '$\Omega_{m,0} (2 \sigma$ bound)'])
 
+#plot lines showing upper 1-sigma and 2-sigma bounds of omega_m and t_0
 ax.plot([0.0,1.0],[t_max_1sigma, t_max_1sigma], color='r', alpha = 1, linestyle='--', linewidth=1)
 ax.plot([0.0,1.0],[t_max_2sigma, t_max_2sigma], color='r', alpha = 0.5, linestyle='--', linewidth=1)
 ax.axvline(x=omega_max_1sigma, ymin=0.0, ymax=1.0, color='k', alpha = 1, linestyle='--', linewidth=1)
 ax.axvline(x=omega_max_2sigma, ymin=0.0, ymax=1.0, color='k', alpha = 0.5, linestyle='--', linewidth=1)
 
-
 #create legend
 plt.legend(wx_legend)
+
+#remove white space
+fig.tight_layout()
 
 #save figure to a file
 fig.savefig('plot_age_universe_new.pdf')
