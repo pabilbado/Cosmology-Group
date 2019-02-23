@@ -1,11 +1,9 @@
 """
 Purpose: plots q(z) in a given redshift range, for the Lambda-CDM, SFQ-I, SFQ-II
 and pure mattermodels
-
 @author Matthew Gorton
-@version 1.5
-16 February 2019
-
+@version 2.0
+23 February 2019
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,16 +11,16 @@ from functions.q_LambdaCDM import q_LambdaCDM as q1
 from functions.q_sfq_v2 import q_sfq as q2
 
 #create functions
-q1 = q_1()
-q_purematter = q_1()
-q2a = q_2()
-q2b = q_2()
+q1a = q1()
+q_purematter = q1()
+q2a = q2()
+q2b = q2()
 
 #set value of omega_m,0 to best-fit Planck value
 omeM = 0.308
 
 #set value of omega_m,0 (and a_t in SFQ models) in q(z)
-q1.update(omeM)
+q1a.update(omeM)
 q2a.update(omeM, 0.50)
 q2b.update(omeM, 0.23)
 
@@ -51,7 +49,7 @@ plt.xlabel('Redshift z')           #label x axis
 plt.ylabel('q(z)')                 #label y axis
 
 #plot each q value and add appropriate description to legend
-q1.plot(ax, [0.0, 5.0], 0.01)
+q1a.plot(ax, [0.0, 5.0], 0.01)
 wx_legend = np.append(wx_legend, ['$\\Lambda$-CDM Model'])
 q2a.plot(ax, [0.0, 5.0], 0.01)
 wx_legend = np.append(wx_legend, ['SFQ Model 1 $(a_{\\tau} = 0.50)$'])
