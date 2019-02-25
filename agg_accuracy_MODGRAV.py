@@ -1,8 +1,8 @@
 import numpy as np
-from functions.sfq import dsfq
+from functions.sfq import dL as dsfq
 import matplotlib.pyplot as plt
 from functions.parent import Function
-from functions.d_PartIII import dDGP
+from functions.dL_PartIII import dL as dDGP
 
 #create luminosity distance functions
 d_DGP = dDGP()
@@ -18,12 +18,12 @@ rangz = np.arange(0., 2., 0.1)
 fig, ax = plt.subplots(figsize=(4,3))
 
 #create legend
-legend = ([])
+#legend = ([])
 
 #set x and y axis limits
 ax.set_xlim(left=0.0, right=2.0)
 
-plt.xlabel('Redshift z')           #label x axis
+plt.xlabel('Redshift z')                         #label x axis
 plt.ylabel('$\\Delta d_{L}/d_{L}$')              #label y axis
 
 #create a function to calculate the aggregate accuracy
@@ -37,7 +37,7 @@ class agg_accuracy(Function):
 
     def cal(self, z):
         #luminosity distance d_L = (1+z)d
-        return np.abs((1+z) * (self.d.cal(z)-self.dcdm.cal(z))/self.d.cal(z))
+        return np.abs((self.d.cal(z)-self.dcdm.cal(z))/self.d.cal(z))
 
 #aggregate accuracy for DGP model
 agg1 = agg_accuracy()
@@ -46,10 +46,7 @@ agg1.plot(ax, [0.01, 2.0], 0.1)
 #legend = np.append(dL_legend, ['SFQ Model 1 $(a_{\\tau} = 0.50)$'])
 
 #invert x axis
-plt.gca().invert_xaxis()
-
-#create legend
-#plt.legend(dL_legend)
+ax.invert_xaxis()
 
 #remove white space
 fig.tight_layout()
