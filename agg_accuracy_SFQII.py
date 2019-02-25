@@ -36,7 +36,7 @@ class agg_accuracy(Function):
 
     def cal(self, z):
         #luminosity distance d_L = (1+z)d
-        return np.abs((1+z) * (self.d.cal(z)-self.dcdm.cal(z))/self.d.cal(z))
+        return np.abs(self.d.cal(z)-self.dcdm.cal(z))/self.d.cal(z)
 
 #aggregate accuracy for SFQ-I model
 agg1 = agg_accuracy()
