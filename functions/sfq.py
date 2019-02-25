@@ -1,98 +1,107 @@
-from integrator.trapezium import multi as integrate
+from integrator.simpsons import multi as integrate
 from integrator.simpsons import simpsrule as integratechild
 import math
 from functions.parent import Function
 
 """
-sfq_integrand class: using given values for a sfq model, this class is responsible
-for calculating the function inside the integral, to be used for integration in
-later stages.
+rho_integrand class: calculates the integrand for the density rho(a) for the SFQ model
 """
-class sfq_integrand(Function):
+
+class rho_integrand(Function):
     def __init__(self):
         Function.__init__(self)
-        self.factor = 1
-        self.wf = -1
-#cal Method: Calculates the function inside the integral.
-#           Inputs:  value of a.
-#           Outputs: the result of the function from given values.
+        self.factor = 1.
+        self.wf = -1.
+        self.wpast = 0.
+        self.tau = 0.33
+        self.at = 0.5
+
+    #cal Method: Calculates the integrand of rho(a)
+    #           Inputs: scale factor a
+    #           Outputs: integrand of rho(a)
     def cal(self, a):
-        w = -self.wf + self.factor*((self.wpas - self.wf)/(1 + math.pow(a/self.at, 1./self.tau))) #function for the barotropic parameter in terms of a
-        intgrd = -(3.*(1+w)/a)  #the full integrand
-        return(intgrd)
+        #w_x term
+        wx = self.wf + self.factor * (self.wpast - self.wf)/(1 + math.pow(a/self.at, 1/self.tau))
+        return (1/a) * 3 * (1 + wx)
+
 
 """
-sfq_integral class: using given values for a sfq model, this class is responsible
-for integrating a given function for a value of redshifts, z. (If you want a list use the wrapper in integrator.mapper.map)
+rho class: calculates the density rho(a) for the SFQ model
 """
-
-
-class sfq_integral(Function):
+class rho(Function):
     def __init__(self):
         Function.__init__(self)
-        self.integral = sfq_integrand()
+        self.integrand = rho_integrand()
 
-#cal Method: Calculates the value of the scale factor from a value of z, then integrates
-#the given function of the scale factor, and outputs a list of rho_x.
+    #cal Method: Calculates the density rho(a)
+    #           Inputs: scale factor a
+    #           Outputs: density rho(a)
+    def cal(self, a):
+        result = -integratechild(self.integrand, [self.a0, a], 1e-3)
+        return math.exp(result)
 
-#            Inputs: The z value (If you want several values at once use the wrapper in the trapeziumrule)
-#            Outputs: a rho_x0*(exp(3.*(1+w)/a))
-    def cal(self, z):
-        a = 1./(1+z)  #Calculates the values of scale factor
-        integral = integratechild(self.integral, [a, self.a0], 0.001)    #integrates the integrand
-        rho_x = math.exp(integral)    #Calculates rho_x for each given z, adds it to the list.
-        return rho_x
-
-class intdsfq(Function):
+"""
+dsfq_integrand class: calculates the integrand for the physical distance in the SFQ Model
+"""
+class dsfq_integrand(Function):
 
     def __init__(self):
         Function.__init__(self)
-        self.rho = sfq_integral()
-        self.wpas = 0
-        self.wf = -1
+        self.rho = rho()
+        self.wpast = 0.
+        self.wf = -1.
 
-    def cal(self, a):   #calculates the integral for d(z). The integrand is long, and is therefore
-        z = 1./(a)-1        #broken down into the constant, and the square root using variables.
-        const = (self.c*self.a0)/(a**2)
-        sqrt_part = math.sqrt(self.omeM*math.pow(self.a0/a, 3) + self.omeX*self.rho.cal(z))
-        integrand = const*(1/(self.H0_2*sqrt_part))
+    #cal Method: Calculates the integrand of the physical distance d(a)
+    #           Inputs: scale factor a
+    #           Outputs: integrand for d(a)
+    def cal(self, a):
 
+        sqrt_part = math.sqrt(  self.omeM*math.pow((self.a0/a),3) + self.omeX*self.rho.cal(a)      )
+
+        integrand = (self.c * self.a0 / math.pow(a,2)) * 1/(self.H0_2 * sqrt_part)
 
         return integrand
 
+"""
+dsfq_integrand class: calculates the integrand for the physical distance in the SFQ Model
+"""
 class dsfq(Function):
     def __init__(self):
         Function.__init__(self)
-        self.integrand = intdsfq()
+        self.integrand = dsfq_integrand()
 
+    #cal Method: Calculates the physical distance d(a)
+    #           Inputs: redshift z
+    #           Outputs: physical distance d(a)
     def cal(self, z):
-        a = 1/(1+z)
-        return integrate(self.integrand, [a, self.a0], 0.001)
+        #express scale factor in terms of redshift
+        a = self.a0/(1+z)
+        return integratechild(self.integrand, [a, self.a0], 1e-3)
 
+    #update Method: Assigns values to calculate the physical distance d(a)
+    #           Inputs: see below
+    #           Outputs: none
     def update(self,
-                     factor=False,
-                     omeM=False,
-                     omeX=False,
-                     at=False,
-                     tau=False,
-                     wp = False,
-                     wm = False,
-                     wf = False
+                     factor=False,  #set = 0 for Lambda_CDM, =1 for SFQ models
+                     omeM=False,    #present density parameter for matter
+                     omeX=False,    #present density parameter for dark energy
+                     at=False,      #scale factor at transition, appearing in SFQ models
+                     tau=False,     #transition width, appearing in SFQ models
+                     wpast = False, #value of barotropic parameter w(a) as a -> 0
+                     wf = False     #value of barotropic parameter w(a) as a -> infinity
                      ):
 
         if type(factor) != type(False):
-            self.integrand.rho.integral.factor = factor
+            self.integrand.rho.integrand.factor = factor
         if type(omeM) != type(False):
             self.integrand.omeM = omeM
         if type(omeX) != type(False):
             self.integrand.omeX = omeX
         if type(at) != type(False):
-            self.integrand.at = at
+            self.integrand.rho.integrand.at = at
         if type(tau) != type(False):
-            self.integrand.tau = tau
-        if type(wp) != type(False):
-            self.integrand.wp = wp
-        if type(wm) != type(False):
-            self.integrand.wm = wm
+            self.integrand.rho.integrand.tau = tau
+        if type(wpast) != type(False):
+            self.integrand.rho.integrand.wpast = wpast
         if type(wf) != type(False):
-            self.integrand.wf = wf
+            self.integrand.rho.integrand.wf = wf
