@@ -25,6 +25,7 @@ def LineMethod(wa, wp, tolerance, step, inpdata, df):
     print("Finding point in Line")
     z = inpdata[0][0]
     d_data = inpdata[0][1]
+    points=[]
 
     pDifsign = 0
     while True:
@@ -60,9 +61,11 @@ def LineMethod(wa, wp, tolerance, step, inpdata, df):
         Difsign = abs(Dif)/Dif
         if Difsign != pDifsign:
             step *=0.2
-
+        points.append([wa,wp])
         pDifsign = Difsign
         print("{0} , {1}, Dif: {4}; step: {3}".format(wa, wp, tolerance, abs(step), Dif))
+#     with open("savedData/rpoint.pckl", "wb") as f:
+#         pickle.dump(points, f)
     return wa, wp, step
 
 """
@@ -79,7 +82,7 @@ def moveLine(wa, wp, step, tolerance, inpdata ,df ,results = [], reverse = False
     prevV=np.array([step, 0])
 
     while True:
-        neigP = neighCor(wa, wp, prevV, int(30), reverse = reverse)
+        neigP = neighCor(wa, wp, prevV, int(30), reverse = False)
         Small = False
 
         diffL = []
@@ -245,13 +248,13 @@ def linearregression(df, results, inpdata):
 
 d = dCPL()
 
-step = .5          # Initial stepsize
-tolerance = 0.01     # Tolerace
-iP = [ 0,
-      -0.5]        # Initial point
+step = .00005          # Initial stepsize
+tolerance = 0.1
+iP = [ -.1,
+      -0.99]        # Initial point
 
-ranges = [[-0.2,0],
-          [-1.04,-.9]]
+ranges = [[-0.11,-.1],
+          [-1.,-.8]]
 
 inpdata = obtaindata("data")
 
@@ -271,16 +274,14 @@ results = moveLine(wa, wp, step, tolerance, inpdata, d ,results, rangwa = ranges
 print("Change direction")
 wa = fwa
 wp = fwp
-results = moveLine(wa, wp, -step, tolerance, inpdata, d,results, reverse = True, rangwa = ranges[0], rangwp = ranges[1])
+results = moveLine(wa, wp, -step, tolerance, inpdata, d,results, rangwa = ranges[0], rangwp = ranges[1])
 
 
-# results =  roundR(results, 5)
-
-
-# os.system("mkdir savedData")
+results =  roundR(results, 5)
+os.system("mkdir savedData")
 # with open("savedData/rdatapoint.pckl", "wb") as f:
 #     pickle.dump(results, f)
 
-results = checkresults(results, inpdata[1:], .5, d)
+results = checkresults(results, inpdata[1:], tolerance, d)
 print(results)
 linearregression(d, results, inpdata)
