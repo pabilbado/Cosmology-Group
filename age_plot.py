@@ -32,7 +32,7 @@ t_max_2sigma = t_mean + 2*1.1
 
 
 #create figure
-fig, ax =plt.subplots()
+fig, ax =plt.subplots(figsize=(4,3))
 
 #add error lines for t_0
 ax.plot([0.0,1.0],[t_max_1sigma, t_max_1sigma], color='r', alpha = 1, linestyle='--', linewidth=2)
@@ -50,12 +50,13 @@ ax.set_ylim(bottom=8.0, top=20.0)
 #add legend to plot
 plt.legend(wx_legend)
 
-#remove white space
-fig.tight_layout()
-
 #label x and y values
 plt.xlabel('${\Omega}_{\Lambda,0}$')
 plt.ylabel('Age of Universe / Gyr')
+
+#remove white space
+fig.tight_layout()
+
 #plot figure
 ax.plot(omega_Lambda, t_0_normalised, 'b-')
 plt.show()
